@@ -1,0 +1,47 @@
+{% block body %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<div class="container" style = "margin-top:50px">
+    <h2 class="text-center">Dependent Dropdown</h2>
+    <br><br>
+    <form method="post" id="indexForm" data-courses-url="{% url 'ajax_load_courses' %}">
+         {% csrf_token %}
+        <label>Programming</label>
+        <select name="programming" id="programming" class="form-control">
+            <option value="">---select programming---</option>
+            {% for i in program %}
+            <option value="{{i.id}}">{{i.name}}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label>Courses</label>
+      <select name="courses" id="courses" class="form-control">
+
+        </select>
+        <br>
+        <input type = "submit" value="Submit" class="form-control btn btn-primary">
+    </form>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#programming").change(function () {
+      var url = $("#indexForm").attr("data-courses-url");  // get the url of the `load_courses` view
+      var programmingId = $(this).val();  // get the selected programming ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+        data: {
+          'programming': programmingId       // add the programming id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_courses` view function
+          $("#courses").html(data);  // replace the contents of the course input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+
+
+{% endblock%}

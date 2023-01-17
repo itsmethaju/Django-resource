@@ -1,0 +1,150 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Satisfy&display=swap");
+
+@mixin mQ($px) {
+  @media screen and (min-width: $px) {
+    @content;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$font-sans: "Open Sans", sans-serif;
+$font-cursive: "Satisfy", cursive;
+$clr-gold: #ffd700;
+
+body {
+  font-family: $font-sans;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+}
+
+%pseudo {
+  position: absolute;
+  content: "";
+  display: block;
+}
+
+header {
+  background: url("https://cdn.pixabay.com/photo/2020/11/30/19/16/christmas-5791984_960_720.png")
+    no-repeat 50% 50% / cover;
+  width: 100%;
+  min-height: 100vh;
+  place-content: center;
+  place-items: center;
+  display: grid;
+  text-align: center;
+  padding: min(5em, 80vh) 2em;
+
+  nav {
+    padding-bottom: 4em;
+
+    ul {
+      display: flex;
+      gap: 35px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      column-gap: 35px;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 15px;
+
+      @include mQ(500px) {
+        row-gap: 35px;
+      }
+
+      a {
+        color: #c1c1c1;
+        text-transform: uppercase;
+        position: relative;
+
+        &::after {
+          @extend %pseudo;
+          height: 1px;
+          background: $clr-gold;
+          width: 0%;
+          transition: width 0.3s ease-in-out;
+        }
+
+        &:hover {
+          color: $clr-gold;
+        }
+
+        &:hover::after {
+          width: 100%;
+        }
+      }
+
+      a.active {
+        color: $clr-gold;
+
+        &::after {
+          @extend %pseudo;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  div {
+    color: #c1c1c1;
+
+    span {
+      color: $clr-gold;
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: clamp(4rem, 15vw, 9rem);
+      text-transform: capitalize;
+      font-family: $font-cursive;
+      color: $clr-gold;
+      margin: 20px auto;
+      line-height: 1;
+    }
+
+    p {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    a {
+      display: inline-block;
+      background: #91680a;
+      padding: 12px 35px;
+      text-transform: uppercase;
+      color: #fff;
+      border-radius: 50px;
+      margin-top: 40px;
+      transition: background 0.25s;
+
+      &:hover {
+        background: lighten(#91680a, 10%);
+        box-shadow: 2px 4px 14px rgb(0 0 0 / 50%);
+      }
+    }
+  }
+}
+
+</style>
+<header>
+
+  <div>
+    <span>we wish you a</span>
+    <a href="{% url 'updateuser' %}"><h1>UpdAtE</h1></a>
+    <a href="{% url 'logout' %}"><h1>LOGOUT</h1></a>
+    <h1>{{request.user.username}}</h1>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis libero error, in odit quasi explicabo quam animi et ab recusandae.</p>
+    <a href="#">shop now</a>
+  </div>
+</header>
